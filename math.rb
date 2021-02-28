@@ -1,21 +1,18 @@
 module Math
+  @@fibonacci_cache = { 0 => 1, 1 => 2 }
+
   def self.fibonacci(index)
     raise "Index must be >= 0; provided value #{index} is out of bounds" if index < 0
 
-    return 1 if index == 0
-    return 2 if index == 1
+    return @@fibonacci_cache[index] if @@fibonacci_cache.include? index
 
-    prev_prev_value = 1
-    prev_value = 2
-    current_value = 3
-
-    current_index = 2
+    current_index = index
+    current_value = 0
     while current_index <= index
-      current_index += 1
+      current_value = @@fibonacci_cache[current_index - 2] + @@fibonacci_cache[current_index - 1]
+      @@fibonacci_cache[current_index] = current_value
 
-      current_value = prev_prev_value + prev_value
-      prev_prev_value = prev_value
-      prev_value = current_value
+      current_index += 1
     end
     return current_value
   end
